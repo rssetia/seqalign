@@ -26,6 +26,7 @@ public class ParseFasta {
 			FASTAElement el = it.next() ; 
 			char[] charSeq = el.getSequence().toCharArray() ;
 			Sequence seq = new Sequence(charSeq, el.getSequence()) ;
+			seq.setName(el.getHeader()) ; 
 			al.add(seq); 
 		}
 		

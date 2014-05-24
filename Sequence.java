@@ -2,7 +2,7 @@ package seqalign;
 
 public class Sequence {
 	char[] aminoChain ; 
-	String name; 
+	String name = ""; 
 	
 	public Sequence(char[] aminoChain) { 
 		this.aminoChain = aminoChain ; 
@@ -21,4 +21,12 @@ public class Sequence {
 	public int getLength() { 
 		return aminoChain.length ; 
 	}
+
+	public void setName(String header) {
+		this.name = header;	
+	}
+	
+	public String getName() { 
+		return name; 
+	} 
 }

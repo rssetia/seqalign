@@ -28,7 +28,8 @@ public class Model {
 		initS() ; 
 		initT() ; 
 		fill() ; 
-		//backtrack() ;  
+		backtrack() ;  
+		System.out.println("DONE") ; 
 	}
 
 	public int getHighestScore() { 
@@ -45,10 +46,10 @@ public class Model {
 	private void initM() { 
 		M.setVal(0, 0, 0); 
 		for(int i = 1 ; i <= seqS.getLength(); i++) { 
-			M.setVal(i, 0, -100) ; 
+			M.setVal(i, 0, -10000) ; 
 		}
 		for(int j = 1 ; j <= seqT.getLength(); j++) { 
-			M.setVal(0, j, -100) ; 
+			M.setVal(0, j, -10000) ; 
 		}
 	}
 	
@@ -58,7 +59,7 @@ public class Model {
 			S.setVal(i, 0, o + e * i) ; 
 		}
 		for(int j = 1; j <= seqT.getLength(); j ++) { 
-			S.setVal(0, j, -100) ; 
+			S.setVal(0, j, -10000) ; 
 		}
 	}
 	
@@ -68,7 +69,7 @@ public class Model {
 			T.setVal(0, j, o + e * j) ; 
 		}
 		for(int i = 1; i <= seqS.getLength(); i ++) { 
-			T.setVal(i, 0, -100) ; 
+			T.setVal(i, 0, -10000) ; 
 		}
 	}
 	
@@ -98,7 +99,8 @@ public class Model {
 		int Sval = this.S.getVal(i - 1, j) + e; 
 		int Tval = this.T.getVal(i - 1, j) + o ;
 
-		this.S.setVal(i, j, maxThree(Mval, Sval, Tval) + matchScore ) ; 
+		//this.S.setVal(i, j, maxThree(Mval, Sval, Tval) + matchScore ) ; 
+		this.S.setVal(i, j, maxThree(Mval, Sval, Tval)) ; 
 	}
 	
 	private void calcT(int i, int j) { 
@@ -111,7 +113,8 @@ public class Model {
 		int Sval = this.S.getVal(i, j - 1) + o; 
 		int Tval = this.T.getVal(i, j - 1) + e;
 		
-		this.T.setVal(i, j, maxThree(Mval, Sval, Tval) + matchScore ) ; 
+		//this.T.setVal(i, j, maxThree(Mval, Sval, Tval) + matchScore ) ;
+		this.T.setVal(i, j, maxThree(Mval, Sval, Tval)) ;
 	}
 	
 	private int maxThree(int a, int b, int c) { 
@@ -164,12 +167,22 @@ public class Model {
 	}
 	
 	public void printAlignment(Stack<Alignment> st) { 
+		int total = 0 ; 
 		while (!st.isEmpty()) { 
 			Alignment a = st.pop() ; 
 			char s = a.s ; 
 			char t = a.t ; 
-			System.out.println(s + " " + t) ; 
+			int score = 0; 
+			if (s == '-' || t == '-') { 
+				score = 0; 
+			} else { 
+				score = bl.getScore(s, t) ; 
+				total += score; 
+			} 
+			System.out.println(s + " " + t  + " " + score) ;
+
 		}
+		System.out.println("SCORE: " + total) ; 
 	}
 	
 }
